@@ -1,4 +1,4 @@
-#include "PluginEditor.h"
+#include "JW01AudioProcessorEditor.h"
 
 // 親クラスのコンストラクタを呼び出し、プロセッサへの参照を保持
 TestAudioProcessorEditor::TestAudioProcessorEditor(JW01AudioProcessor& p): AudioProcessorEditor(&p), processor(p) {

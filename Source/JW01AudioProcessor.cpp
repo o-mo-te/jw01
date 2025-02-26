@@ -1,5 +1,5 @@
-#include "PluginProcessor.h"
-#include "PluginEditor.h"
+#include "JW01AudioProcessor.h"
+#include "JW01AudioProcessorEditor.h"
 #include <cmath>
 
 // プラグインのインスタンスを作成する関数(JUCEによって呼び出される)

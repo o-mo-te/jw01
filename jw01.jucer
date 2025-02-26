@@ -4,13 +4,22 @@
               addUsingNamespaceToJuceHeader="0" jucerFormatVersion="1" companyName="JW01">
   <MAINGROUP id="psAxpM" name="JW01">
     <GROUP id="{F286DA95-EC81-47E4-DF31-95A860C3B19B}" name="Source">
-      <FILE id="QTPs4t" name="PluginProcessor.cpp" compile="1" resource="0"
-            file="Source/PluginProcessor.cpp"/>
-      <FILE id="wA5WRO" name="PluginProcessor.h" compile="0" resource="0"
-            file="Source/PluginProcessor.h"/>
-      <FILE id="wiAiL0" name="PluginEditor.cpp" compile="1" resource="0"
-            file="Source/PluginEditor.cpp"/>
-      <FILE id="HVp0G0" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
+      <GROUP id="{483C1280-E40F-49FB-E1A6-A1B3429BD34C}" name="Define">
+        <FILE id="Re8G0v" name="NotificationName.h" compile="0" resource="0"
+              file="Source/NotificationName.h" xcodeResource="0"/>
+      </GROUP>
+      <GROUP id="{B3C33BF4-647C-794F-ED71-6A69C789FC0D}" name="Controller">
+        <FILE id="wA5WRO" name="JW01AudioProcessor.h" compile="0" resource="0"
+              file="Source/JW01AudioProcessor.h"/>
+        <FILE id="QTPs4t" name="JW01AudioProcessor.cpp" compile="1" resource="0"
+              file="Source/JW01AudioProcessor.cpp"/>
+      </GROUP>
+      <GROUP id="{9983C646-155A-B0F9-B1FA-FDCAA0FE8B4F}" name="View">
+        <FILE id="HVp0G0" name="JW01AudioProcessorEditor.h" compile="0" resource="0"
+              file="Source/JW01AudioProcessorEditor.h"/>
+        <FILE id="wiAiL0" name="JW01AudioProcessorEditor.cpp" compile="1" resource="0"
+              file="Source/JW01AudioProcessorEditor.cpp"/>
+      </GROUP>
     </GROUP>
   </MAINGROUP>
   <MODULES>
