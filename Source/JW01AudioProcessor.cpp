@@ -15,7 +15,7 @@ parameters(*this, nullptr, "PARAMETERS", {
     // "overdrive"パラメータを作成(パラメータID・表示名・最小値・最大値・デフォルト値)
     std::make_unique<juce::AudioParameterFloat>("Overdrive", "Overdrive", 1.0f, 10.0f, 1.0f),
     // "gain"パラメータを作成(パラメータID・表示名・最小値・最大値・デフォルト値)
-    std::make_unique<juce::AudioParameterFloat>("Gain", "Gain", -10.0f, 10.0f, 1.0f)
+    std::make_unique<juce::AudioParameterFloat>("Gain", "Gain", 0.0f, 2.0f, 1.0f)
 })
 {
     // "overdrive"パラメータの値を取得(リアルタイム処理用)
@@ -39,12 +39,10 @@ void JW01AudioProcessor::processBlock(juce::AudioBuffer<float>& buffer, juce::Mi
     float overdriveValue = overdriveParam->load();
     float gainValue = gainParam->load();
     
-    // 各チャンネル(L/R)に対して処理を実行
+    //　TONEの処理をここに入れる
+    
+    // 【オーバードライブの処理】各チャンネル(L/R)に対して処理を実行
     for (int channel = 0; channel < buffer.getNumChannels(); ++channel) {
-        
-        //　TONEの処理をここに入れる
-        
-        // 【オーバードライブの処理】
         float* channelData = buffer.getWritePointer(channel);
         // 各サンプルにオーバードライブを適用
         for (int sample = 0; sample < buffer.getNumSamples(); ++sample) {
@@ -55,8 +53,10 @@ void JW01AudioProcessor::processBlock(juce::AudioBuffer<float>& buffer, juce::Mi
             // 【Exponential Drive(より自然な歪み)】
             // channelData[sample] = std::copysign(1.0f - std::exp(-std::abs(drive * channelData[sample])), channelData[sample]);
         }
-        
-        // 【アウトプットゲインの処理】
+    }
+    
+    // 【アウトプットゲインの処理】
+    for (int channel = 0; channel < getTotalNumOutputChannels(); ++channel) {
         // バッファのサンプルにゲインを適用
         buffer.applyGain(channel, 0, buffer.getNumSamples(), gainValue);
     }
