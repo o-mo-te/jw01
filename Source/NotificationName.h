@@ -10,7 +10,6 @@ enum class NotificationName {
     Unknown
 };
 
-// `enum` → `string` 変換関数
 constexpr std::string_view toString(NotificationName name) {
     switch (name) {
         case NotificationName::Gain:
@@ -24,16 +23,15 @@ constexpr std::string_view toString(NotificationName name) {
     }
 }
 
-// `string` → `enum` 変換関数
-constexpr Color fromString(std::string_view string) {
+constexpr NotificationName fromString(std::string_view string) {
     if (string == "Gain") {
-        return Color::Gain;
+        return NotificationName::Gain;
     }
     if (string == "Overdrive") {
-        return Color::Overdrive;
+        return NotificationName::Overdrive;
     }
     if (string == "Tone") {
-        return Color::Tone;
+        return NotificationName::Tone;
     }
-    return Color::Unknown;
+    return NotificationName::Unknown;
 }
