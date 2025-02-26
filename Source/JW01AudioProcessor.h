@@ -29,6 +29,7 @@ class JW01AudioProcessor : public juce::AudioProcessor {
     
     private:
     std::atomic<float>* overdriveParam = nullptr;
+    std::atomic<float>* gainParam = nullptr;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(JW01AudioProcessor)
 };

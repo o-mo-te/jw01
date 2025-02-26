@@ -14,8 +14,12 @@ class JW01AudioProcessorEditor : public juce::AudioProcessorEditor {
 
     private:
     JW01AudioProcessor& processor;
+    juce::Label overdriveLabel;
+    juce::Label gainLabel;
     juce::Slider overdriveSlider;
+    juce::Slider gainSlider;
     std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> overdriveAttachment;
+    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> gainAttachment;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(JW01AudioProcessorEditor)
 };

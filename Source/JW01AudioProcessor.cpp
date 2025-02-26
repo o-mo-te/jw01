@@ -8,17 +8,20 @@ juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter() {
 }
 
 // コンストラクタ(プラグインの初期化処理)
-JW01AudioProcessor::JW01AudioProcessor()
-: AudioProcessor (BusesProperties()
-                  .withInput  ("Input",  juce::AudioChannelSet::stereo(), true)
-                  .withOutput ("Output", juce::AudioChannelSet::stereo(), true))
-, parameters(*this, nullptr, "PARAMETERS", {
+JW01AudioProcessor::JW01AudioProcessor() : AudioProcessor (BusesProperties()
+                                                           .withInput  ("Input",  juce::AudioChannelSet::stereo(), true)
+                                                           .withOutput ("Output", juce::AudioChannelSet::stereo(), true)),
+parameters(*this, nullptr, "PARAMETERS", {
     // "overdrive"パラメータを作成(パラメータID・表示名・最小値・最大値・デフォルト値)
-    std::make_unique<juce::AudioParameterFloat>("Overdrive", "Overdrive", 1.0f, 10.0f, 1.0f)
+    std::make_unique<juce::AudioParameterFloat>("Overdrive", "Overdrive", 1.0f, 10.0f, 1.0f),
+    // "gain"パラメータを作成(パラメータID・表示名・最小値・最大値・デフォルト値)
+    std::make_unique<juce::AudioParameterFloat>("Gain", "Gain", -10.0f, 10.0f, 1.0f)
 })
 {
     // "overdrive"パラメータの値を取得(リアルタイム処理用)
     overdriveParam = parameters.getRawParameterValue("Overdrive");
+    // "gain"パラメータの値を取得(リアルタイム処理用)
+    gainParam = parameters.getRawParameterValue("Gain");
 }
 
 // デストラクタ(特にリソースの解放処理は不要)
@@ -27,19 +30,21 @@ JW01AudioProcessor::~JW01AudioProcessor() {}
 // オーディオ処理の準備(サンプルレートやバッファサイズが渡される)
 void JW01AudioProcessor::prepareToPlay(double sampleRate, int samplesPerBlock) {}
 
-// リソース解放(特に何もしていないが、必要ならここに追加)
+// リソース解放(特に何もしていないが必要ならここに追加)
 void JW01AudioProcessor::releaseResources() {}
 
 // 実際に音を処理するロジック(ゲイン調整・エフェクトの適用・フィルタリング等)を記述
 void JW01AudioProcessor::processBlock(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages) {
-    // 現在のゲインパラメータの値を取得
+    // 現在のパラメータの値を取得
     float overdriveValue = overdriveParam->load();
+    float gainValue = gainParam->load();
+    
     // 各チャンネル(L/R)に対して処理を実行
     for (int channel = 0; channel < buffer.getNumChannels(); ++channel) {
         
         //　TONEの処理をここに入れる
-
-        // オーバードライブの処理
+        
+        // 【オーバードライブの処理】
         float* channelData = buffer.getWritePointer(channel);
         // 各サンプルにオーバードライブを適用
         for (int sample = 0; sample < buffer.getNumSamples(); ++sample) {
@@ -51,12 +56,9 @@ void JW01AudioProcessor::processBlock(juce::AudioBuffer<float>& buffer, juce::Mi
             // channelData[sample] = std::copysign(1.0f - std::exp(-std::abs(drive * channelData[sample])), channelData[sample]);
         }
         
-        //        // アウトプットゲインの処理
-        //        // チャンネルのバッファデータを取得(実際にはこの行は不要)
-        //        buffer.getWritePointer(channel);
-        //        // バッファのサンプルにゲインを適用
-        //        buffer.applyGain(channel, 0, buffer.getNumSamples(), gainValue);
-
+        // 【アウトプットゲインの処理】
+        // バッファのサンプルにゲインを適用
+        buffer.applyGain(channel, 0, buffer.getNumSamples(), gainValue);
     }
 }
 
